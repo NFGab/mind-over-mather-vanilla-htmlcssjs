@@ -4,13 +4,13 @@ const ansElem = document.querySelector('.js-answer');
 const result = document.querySelector('.js-result');
 const pntsElem = document.querySelector('.js-points');
 let points = 0;
-// let ansInput = document.querySelector('.js-answertest');
-// numElem1.innerHTML = getRandomInt(10, 100);
-// numElem2.innerHTML = getRandomInt(1, 20);
+
 
 function generateNumbers() {
-    numElem1.innerHTML = getRandomInt(10, 100);
-    numElem2.innerHTML = getRandomInt(1, 20);
+    let number1 = getRandomInt(10, 100);
+    let number2 = getRandomInt(1, 20);
+    numElem1.innerHTML = number1;
+    numElem2.innerHTML = number2;
     pntsElem.innerHTML = points;
 }
 
@@ -27,6 +27,10 @@ function getRandomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function calc(){
+    const userAns = parseInt(ansElem.value);
+    
+}
 
 function submitAnswer(){
     const userAns = parseInt(ansElem.value);
