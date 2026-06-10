@@ -8,10 +8,15 @@ let difficulty;
 let points = 0;
 
 function gameStartCheck(diff){
-    switch(diff){
-        case 'ez': generateNumbers(1, 10);
-        case 'med': generateNumbers(11, 99);
-        case 'hard': generateNumbers(50, 500);
+    if(diff){
+        difficulty = diff;
+        localStorage.setItem('difficulty',diff);
+    }
+
+    switch(difficulty){
+        case 'ez': generateNumbers(1, 15); break;
+        case 'med': generateNumbers(2, 80); break;
+        case 'hard': generateNumbers(9, 300); break;
         default:
             generateNumbers(1,10);
             console.error('No difficulty selected! ');
@@ -19,7 +24,12 @@ function gameStartCheck(diff){
 
 }
 
+function initGame(){
+    const diff = localStorage.setItem();
+}
+
 function generateNumbers(a, b) {
+    if (!numElem1 || !numElem2) return;
     let number1 = getRandomInt(a, b);
     let number2 = getRandomInt(a, b);
     const operator = operators[getRandomInt(0,operators.length-1)];
@@ -31,9 +41,7 @@ function generateNumbers(a, b) {
 }
 
 function randomNumBtn(){
-    const RandomBtn = document.querySelector('.js-random');
-    numElem1.innerHTML = getRandomInt(10, 100);
-    numElem2.innerHTML = getRandomInt(1, 20);
+    gameStartCheck();
     
 }
 
@@ -45,10 +53,19 @@ function getRandomInt(min, max){
 
 function calc(a, operator, b){
     switch(operator){
-        case '+': return a + b;
-        case '-': return a - b;
-        case '*': return a * b;
-        case '/': return Math.round(a / b);
+        case '+': 
+            return a + b;
+        case '-': 
+            if(a < b){
+                return
+            }else{
+                return a - b;
+            }
+            
+        case '*': 
+            return a * b;
+        case '/': 
+            return Math.round(a / b);
         default:
             console.error('Unkown operator:',operator);
             return null; 
@@ -78,5 +95,9 @@ function submitAnswer(){
     }
 }
 
+const savedDiff = localStorage.getItem('difficulty');
+if(savedDiff && numElem1){
+    gameStartCheck(savedDiff);
+}
 // gameStartCheck();
 // generateNumbers();

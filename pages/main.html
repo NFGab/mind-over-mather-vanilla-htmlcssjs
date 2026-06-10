@@ -21,7 +21,14 @@
 
     <p class="js-result"></p>
     <script src="/scripts/scripts.js">
-        
+        function initGame(){
+            const diff = localStorage.getItem('difficulty');
+            if(diff){
+                gameStartCheck(diff);
+            }else{
+                generateNumbers(1,10);
+            }
+        }
     </script>
 </body>
 
