@@ -8,9 +8,9 @@ As of 6/2/2026
 - [x] Subtraction
 - [x] Multiplication
 - [x] Division
-- [ ] Difficulty Choices (Easy, Medium, Hard)
-- [ ] Operators Choices (User can include or exclude certain operators)
+- [x] Difficulty Choices (Easy, Medium, Hard)
+- [ ] ~~Operators Choices (User can include or exclude certain operators)~~
 - [ ] CSS Styling
 - [ ] Basic Backend Integration (maybe)
 As of 6/8/2026  
-- [ ] Combo System 
+- [x] ~~Combo System~~ Streak System   

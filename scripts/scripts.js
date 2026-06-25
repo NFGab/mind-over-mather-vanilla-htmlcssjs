@@ -6,6 +6,7 @@ const pntsElem = document.querySelector('.js-points');
 const operators = ['+','-','*','/'];
 let difficulty;
 let points = 0;
+let streak = 0;
 
 function gameStartCheck(diff){
     if(diff){
@@ -14,7 +15,7 @@ function gameStartCheck(diff){
     }
 
     switch(difficulty){
-        case 'ez': generateNumbers(1, 15); break;
+        case 'ez': generateNumbers(1, 10); break;
         case 'med': generateNumbers(2, 80); break;
         case 'hard': generateNumbers(9, 300); break;
         default:
@@ -28,22 +29,49 @@ function initGame(){
     const diff = localStorage.setItem();
 }
 
-function generateNumbers(a, b) {
+function generateNumbers(min, max) {
     if (!numElem1 || !numElem2) return;
-    let number1 = getRandomInt(a, b);
-    let number2 = getRandomInt(a, b);
     const operator = operators[getRandomInt(0,operators.length-1)];
+    let a, b;
 
+    switch(operator){
+        case '+':
+        case '*':
+            a = getRandomInt(min, max);
+            b = getRandomInt(min, max);
+            break;
+        case '-':
+            [a, b] = generateSub(min, max);
+            break;
+        case '/':
+            [a, b] = generateDiv(min, max);
+            break;
+    }
+
+    numElem1.innerHTML = a;
+    numElem2.innerHTML = b;
     document.querySelector('.js-operator').innerHTML = operator;
-    numElem1.innerHTML = number1;
-    numElem2.innerHTML = number2;
-    
+}
+
+function generateSub(min, max){
+    let a = getRandomInt(min, max);
+    let b = getRandomInt(min, max);
+    if (a < b) [a, b] = [b, a];
+    return [a, b];
+    //js destructuring wow
+}
+
+function generateDiv(min, max){
+    let b = getRandomInt(min, max);
+    let answer = getRandomInt(min, max);
+    const a = b * answer;
+    return [a, b];
 }
 
 function randomNumBtn(){
     gameStartCheck();
-    
 }
+
 
 function getRandomInt(min, max){
     min = Math.ceil(min);
@@ -56,16 +84,11 @@ function calc(a, operator, b){
         case '+': 
             return a + b;
         case '-': 
-            if(a < b){
-                return
-            }else{
-                return a - b;
-            }
-            
+            return a - b;
         case '*': 
             return a * b;
         case '/': 
-            return Math.round(a / b);
+            return a / b;
         default:
             console.error('Unkown operator:',operator);
             return null; 
@@ -85,19 +108,38 @@ function submitAnswer(){
     const result = document.querySelector('.js-result');
 
     if(userAns === eq){
-        result.innerHTML = '<p>Correct!</p>';
+        streak += 1;
+
+        const multiplier = streakMult(streak);
+        points += 1 * multiplier;
+
+        result.innerHTML = `<p>Correct! (x${multiplier.toFixed(2)})</p>`;;
         ansElem.value = '';
-        points += 1;
-        pntsElem.innerHTML = points;
+        pntsElem.innerHTML = Math.round(points);
+        
+        console.log(streak);
         gameStartCheck();
     }else{
         result.innerHTML = '<p>Wrong!</p>';
+        streak = 0;
+        console.log(streak);
     }
+}
+
+function streakMult(streak){
+    if (streak >= 20) return 2.25;
+    if (streak >= 10) return 2.00;
+    if (streak >= 5) return 1.70;
+    return 1.00;
 }
 
 const savedDiff = localStorage.getItem('difficulty');
 if(savedDiff && numElem1){
     gameStartCheck(savedDiff);
 }
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') submitAnswer();
+})
 // gameStartCheck();
 // generateNumbers();
