@@ -3,10 +3,17 @@ const numElem2 = document.querySelector('.js-number2');
 const ansElem = document.querySelector('.js-answer');
 const result = document.querySelector('.js-result');
 const pntsElem = document.querySelector('.js-points');
+const streakElem = document.querySelector('.js-streak');
+const mulElem = document.querySelector('.js-multiplier');
 const operators = ['+','-','*','/'];
+const correctSound = new Audio('/assets/correct.mp3');
+const wrongSound = new Audio('/assets/wrong.mp3');
 let difficulty;
 let points = 0;
 let streak = 0;
+// correctSound.addEventListener('canplaythrough', () => console.log('correct sound loaded and ready'));
+// correctSound.addEventListener('play', () => console.log('correct sound started playing'));
+// correctSound.addEventListener('error', (e) => console.log('correct sound error:', e));
 
 function gameStartCheck(diff){
     if(diff){
@@ -26,7 +33,12 @@ function gameStartCheck(diff){
 }
 
 function initGame(){
-    const diff = localStorage.setItem();
+    const diff = localStorage.getItem('difficulty');
+    if(diff){
+        gameStartCheck(diff);
+    } else {
+        generateNumbers(1, 10);
+    }
 }
 
 function generateNumbers(min, max) {
@@ -103,26 +115,28 @@ function submitAnswer(){
         parseInt(numElem1.innerHTML),
         operator,
         parseInt(numElem2.innerHTML)
-    );
-
-    const result = document.querySelector('.js-result');
+    ); 
 
     if(userAns === eq){
+        
         streak += 1;
-
         const multiplier = streakMult(streak);
         points += 1 * multiplier;
-
-        result.innerHTML = `<p>Correct! (x${multiplier.toFixed(2)})</p>`;;
+        
+        playSound('correct');
         ansElem.value = '';
         pntsElem.innerHTML = Math.round(points);
-        
-        console.log(streak);
+        streakElem.innerHTML = streak;
+        mulElem.innerHTML = `x${multiplier.toFixed(2)}`;
+
         gameStartCheck();
+        
     }else{
-        result.innerHTML = '<p>Wrong!</p>';
+        playSound('wrong');
+        flashWrong();
         streak = 0;
-        console.log(streak);
+        streakElem.innerHTML = streak;
+        mulElem.innerHTML = `x1.00`;
     }
 }
 
@@ -133,13 +147,27 @@ function streakMult(streak){
     return 1.00;
 }
 
-const savedDiff = localStorage.getItem('difficulty');
-if(savedDiff && numElem1){
-    gameStartCheck(savedDiff);
-}
+initGame();
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') submitAnswer();
+    if (e.key === ' ') submitAnswer();
 })
-// gameStartCheck();
-// generateNumbers();
+
+
+function flashWrong() {
+    const equation = document.querySelector('.equation');
+    equation.classList.remove('flash-wrong');
+    void equation.offsetWidth; // forces the browser to reflow — resets the animation
+    equation.classList.add('flash-wrong');
+}
+
+function playSound(type){    
+    if (type === 'correct'){
+        correctSound.currentTime = 0;
+        correctSound.play();
+    }else{
+        wrongSound.currentTime = 0;
+        wrongSound.play();
+    }
+}

@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Mind Over Mather Main Menu</title>
 </head>
 
-<body>
-    <h1>Mind Over Mather</h1>
-    <a href="/pages/main.html"><button onclick="gameStartCheck('ez')">Easy</button></a>
-    <a href="/pages/main.html"><button onclick="gameStartCheck('med')">Medium</button></a>
-    <a href="/pages/main.html"><button onclick="gameStartCheck('hard')">Hard</button></a>
-    
-    <script src="/scripts/scripts.js">
-        function gameStartCheck(){
-            localStorage.setItem('difficulty',diff);
-        }
-    </script>
+<body class="menu-page">
+    <h1>Mind<br>🧠ver<br>Mather</h1>
+    <div class="menu-buttons">
+        <a href="/pages/main.html"><button class="btn-difficulty btn-ez" onclick="gameStartCheck('ez')">Easy</button></a>
+        <a href="/pages/main.html"><button class="btn-difficulty btn-med" onclick="gameStartCheck('med')">Medium</button></a>
+        <a href="/pages/main.html"><button class="btn-difficulty btn-hard" onclick="gameStartCheck('hard')">Hard</button></a>
+        
+        <script src="/scripts/scripts.js">
+            function gameStartCheck(){
+                localStorage.setItem('difficulty',diff);
+            }
+        </script>
+    </div>
 </body>
 
 </html>

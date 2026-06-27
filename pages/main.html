@@ -3,33 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Mind Over Mather</title>
 </head>
 
-<body>
-    <button onclick="history.back()"><</button>
-    <h1>Mind Over Mather</h1>
-    <p class="js-points"></p>
-    <p>Personal Project</p>
+<body class="game-page">
+    <aside class="sidebar">
+        <button class="btn-back" onclick="history.back()">←</button>
+        <span class="stat-label">Points</span>
+        <span class="stat-value js-points">0</span>
+        <span class="stat-label">Streak</span>
+        <span class="stat-value js-streak">0</span>
+        <span class="stat-label">Current Multiplier</span>
+        <span class="stat-value js-multiplier">x1.00</span>
+    </aside>
 
-    <div class="js-main">
-        <p class="js-number1">0</p>
-        <p class="js-operator">+</p>
-        <p class="js-number2">0</p>
-        <input placeholder="Enter answer here" class="js-answer">
-        <button class="js-submit-answer" onclick="submitAnswer(parseInt())">Submit</button>
-    </div>
+    <main class="game-area">
+         <div class="equation">
+            <p class="js-number1">0</p>
+            <p class="js-operator">+</p>
+            <p class="js-number2">0</p>
+            <div class="divider-line"></div>
+        </div>
+        <input class="js-answer" type="number" placeholder="?">
+        <p class="js-result"></p>
+    </main>
 
-    <p class="js-result"></p>
     <script src="/scripts/scripts.js">
-        function initGame(){
-            const diff = localStorage.getItem('difficulty');
-            if(diff){
-                gameStartCheck(diff);
-            }else{
-                generateNumbers(1,10);
-            }
-        }
     </script>
 </body>
 

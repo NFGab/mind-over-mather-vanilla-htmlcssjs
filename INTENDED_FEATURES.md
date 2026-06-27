@@ -12,5 +12,7 @@ As of 6/2/2026
 - [ ] ~~Operators Choices (User can include or exclude certain operators)~~
 - [ ] CSS Styling
 - [ ] Basic Backend Integration (maybe)
+
 As of 6/8/2026  
-- [x] ~~Combo System~~ Streak System   
+- [x] ~~Combo System~~ Streak System
+Moved to readme   
