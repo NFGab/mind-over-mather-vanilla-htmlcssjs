@@ -5,7 +5,7 @@ const result = document.querySelector('.js-result');
 const pntsElem = document.querySelector('.js-points');
 const streakElem = document.querySelector('.js-streak');
 const mulElem = document.querySelector('.js-multiplier');
-const operators = ['+','-','*','/'];
+const operators = ['+','-','x','÷'];
 const correctSound = new Audio('/assets/correct.mp3');
 const wrongSound = new Audio('/assets/wrong.mp3');
 let difficulty;
@@ -23,8 +23,8 @@ function gameStartCheck(diff){
 
     switch(difficulty){
         case 'ez': generateNumbers(1, 10); break;
-        case 'med': generateNumbers(2, 80); break;
-        case 'hard': generateNumbers(9, 300); break;
+        case 'med': generateNumbers(2, 55); break;
+        case 'hard': generateNumbers(9, 250); break;
         default:
             generateNumbers(1,10);
             console.error('No difficulty selected! ');
@@ -48,14 +48,14 @@ function generateNumbers(min, max) {
 
     switch(operator){
         case '+':
-        case '*':
+        case 'x':
             a = getRandomInt(min, max);
             b = getRandomInt(min, max);
             break;
         case '-':
             [a, b] = generateSub(min, max);
             break;
-        case '/':
+        case '÷':
             [a, b] = generateDiv(min, max);
             break;
     }
@@ -97,9 +97,9 @@ function calc(a, operator, b){
             return a + b;
         case '-': 
             return a - b;
-        case '*': 
+        case 'x': 
             return a * b;
-        case '/': 
+        case '÷': 
             return a / b;
         default:
             console.error('Unkown operator:',operator);
